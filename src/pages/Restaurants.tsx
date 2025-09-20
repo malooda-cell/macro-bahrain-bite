@@ -4,17 +4,41 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Search, Filter } from "lucide-react";
-import { mockRestaurants } from "@/data/mockData";
+import { useRestaurants } from "@/hooks/useRestaurants";
 import { useNavigate } from "react-router-dom";
 
 export default function Restaurants() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedNeighborhood, setSelectedNeighborhood] = useState<string | null>(null);
-
-  const neighborhoods = [...new Set(mockRestaurants.map(r => r.neighborhood))];
   
-  const filteredRestaurants = mockRestaurants.filter(restaurant => {
+  const { data: restaurants = [], isLoading, error } = useRestaurants();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading restaurants...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-destructive mb-4">Failed to load restaurants</p>
+          <Button onClick={() => window.location.reload()}>Try Again</Button>
+        </div>
+      </div>
+    );
+  }
+
+  const neighborhoods = [...new Set(restaurants.map(r => r.neighborhood))];
+  
+  const filteredRestaurants = restaurants.filter(restaurant => {
     const matchesSearch = restaurant.restaurant_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          restaurant.cuisine.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesNeighborhood = !selectedNeighborhood || restaurant.neighborhood === selectedNeighborhood;

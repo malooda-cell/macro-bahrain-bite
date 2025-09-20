@@ -5,7 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ArrowLeft, MapPin, Star } from "lucide-react";
-import { mockRestaurants, mockDishes, type Dish } from "@/data/mockData";
+import { useRestaurant } from "@/hooks/useRestaurants";
+import { useDishes, type Dish } from "@/hooks/useDishes";
+import { useAddMealLog } from "@/hooks/useMealLogs";
 import { useToast } from "@/hooks/use-toast";
 
 export default function RestaurantDetail() {
@@ -13,9 +15,23 @@ export default function RestaurantDetail() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [selectedDish, setSelectedDish] = useState<Dish | null>(null);
+  
+  const { data: restaurant, isLoading: restaurantLoading } = useRestaurant(restaurantId!);
+  const { data: dishes = [], isLoading: dishesLoading } = useDishes(restaurantId);
+  const addMealLog = useAddMealLog();
 
-  const restaurant = mockRestaurants.find(r => r.restaurant_id === restaurantId);
-  const dishes = mockDishes.filter(d => d.restaurant_id === restaurantId);
+  const isLoading = restaurantLoading || dishesLoading;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading restaurant details...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!restaurant) {
     return (
@@ -29,10 +45,11 @@ export default function RestaurantDetail() {
   }
 
   const handleAddToLog = (dish: Dish) => {
-    // In real app, this would save to database
-    toast({
-      title: "Added to meal log",
-      description: `${dish.dish_name} has been added to your daily tracker`,
+    // For now, use a dummy user ID - in a real app this would come from auth
+    const dummyUserId = 'user_001';
+    addMealLog.mutate({ 
+      dishId: dish.dish_id, 
+      userId: dummyUserId 
     });
   };
 

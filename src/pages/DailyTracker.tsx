@@ -3,18 +3,39 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Trash2, TrendingUp } from "lucide-react";
-import { mockDishes, mockMealLogs } from "@/data/mockData";
+import { useMealLogs } from "@/hooks/useMealLogs";
 
 export default function DailyTracker() {
-  // Calculate daily totals from mock data
-  const todayLogs = mockMealLogs.filter(log => {
-    const logDate = new Date(log.logged_at).toDateString();
-    const today = new Date().toDateString();
-    return logDate === today;
-  });
+  // For now, use a dummy user ID - in a real app this would come from auth
+  const dummyUserId = 'user_001';
+  const today = new Date().toISOString().split('T')[0];
+  
+  const { data: mealLogs = [], isLoading, error } = useMealLogs(dummyUserId, today);
 
-  const dailyTotals = todayLogs.reduce((totals, log) => {
-    const dish = mockDishes.find(d => d.dish_id === log.dish_id);
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading meal logs...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-destructive mb-4">Failed to load meal logs</p>
+          <Button onClick={() => window.location.reload()}>Try Again</Button>
+        </div>
+      </div>
+    );
+  }
+
+  const dailyTotals = mealLogs.reduce((totals, log) => {
+    const dish = log.dishes;
     if (dish) {
       totals.calories += dish.calories * log.quantity;
       totals.protein += dish.protein_g * log.quantity;
@@ -32,10 +53,7 @@ export default function DailyTracker() {
     fat: 67
   };
 
-  const loggedMeals = todayLogs.map(log => {
-    const dish = mockDishes.find(d => d.dish_id === log.dish_id);
-    return { ...log, dish };
-  }).filter(item => item.dish);
+  const loggedMeals = mealLogs;
 
   return (
     <div className="min-h-screen bg-background">
@@ -55,7 +73,7 @@ export default function DailyTracker() {
             </div>
           </div>
           <Badge variant="secondary" className="bg-primary-foreground/20 text-primary-foreground">
-            {todayLogs.length} meals logged
+            {mealLogs.length} meals logged
           </Badge>
         </div>
       </div>
@@ -123,11 +141,11 @@ export default function DailyTracker() {
                   >
                     <div className="flex-1">
                       <h4 className="font-medium text-card-foreground">
-                        {item.dish?.dish_name}
+                        {item.dishes?.dish_name}
                       </h4>
                       <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
-                        <span>{item.dish?.calories} cal</span>
-                        <span>{item.dish?.protein_g}g protein</span>
+                        <span>{item.dishes?.calories} cal</span>
+                        <span>{item.dishes?.protein_g}g protein</span>
                         <span>Qty: {item.quantity}</span>
                       </div>
                       <div className="text-xs text-muted-foreground mt-1">

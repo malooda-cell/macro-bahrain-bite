@@ -17,7 +17,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <div className="pb-16"> {/* Add padding for bottom navigation */}
+        <div className="min-h-screen bg-gradient-main text-foreground pb-16">
           <Routes>
             <Route path="/" element={<Restaurants />} />
             <Route path="/restaurant/:restaurantId" element={<RestaurantDetail />} />
