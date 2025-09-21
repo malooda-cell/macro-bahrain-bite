@@ -14,7 +14,121 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      dishes: {
+        Row: {
+          calories: number
+          carbs_g: number
+          created_at: string | null
+          dish_id: string
+          dish_name: string
+          fat_g: number
+          ingredients: string | null
+          protein_g: number
+          restaurant_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          calories: number
+          carbs_g: number
+          created_at?: string | null
+          dish_id: string
+          dish_name: string
+          fat_g: number
+          ingredients?: string | null
+          protein_g: number
+          restaurant_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          calories?: number
+          carbs_g?: number
+          created_at?: string | null
+          dish_id?: string
+          dish_name?: string
+          fat_g?: number
+          ingredients?: string | null
+          protein_g?: number
+          restaurant_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dishes_restaurant_id_fkey"
+            columns: ["restaurant_id"]
+            isOneToOne: false
+            referencedRelation: "restaurants"
+            referencedColumns: ["restaurant_id"]
+          },
+        ]
+      }
+      meal_logs: {
+        Row: {
+          created_at: string | null
+          dish_id: string
+          id: string
+          logged_at: string | null
+          meal_type: string | null
+          quantity: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          dish_id: string
+          id?: string
+          logged_at?: string | null
+          meal_type?: string | null
+          quantity?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          dish_id?: string
+          id?: string
+          logged_at?: string | null
+          meal_type?: string | null
+          quantity?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meal_logs_dish_id_fkey"
+            columns: ["dish_id"]
+            isOneToOne: false
+            referencedRelation: "dishes"
+            referencedColumns: ["dish_id"]
+          },
+        ]
+      }
+      restaurants: {
+        Row: {
+          created_at: string | null
+          cuisine: string
+          neighborhood: string
+          price_band: string
+          restaurant_id: string
+          restaurant_name: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          cuisine: string
+          neighborhood: string
+          price_band: string
+          restaurant_id: string
+          restaurant_name: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          cuisine?: string
+          neighborhood?: string
+          price_band?: string
+          restaurant_id?: string
+          restaurant_name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

@@ -136,7 +136,7 @@ export default function DailyTracker() {
               <div className="space-y-3">
                 {loggedMeals.map((item) => (
                   <div 
-                    key={item.log_id}
+                    key={item.id}
                     className="flex items-center justify-between p-3 bg-muted/30 rounded-lg"
                   >
                     <div className="flex-1">

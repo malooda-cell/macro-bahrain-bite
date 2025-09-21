@@ -1,13 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/integrations/supabase/client'
 import { useToast } from '@/hooks/use-toast'
 
 export interface MealLog {
-  log_id: string
+  id: string
   user_id: string
   dish_id: string
   quantity: number
   logged_at: string
+  meal_type?: string
+  created_at?: string
 }
 
 export interface MealLogWithDish extends MealLog {
