@@ -46,7 +46,7 @@ export default function Restaurants() {
   });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20">{/* Added pb-20 for bottom navigation */}
       {/* Header */}
       <div className="bg-gradient-primary text-primary-foreground p-6 shadow-float">
         <h1 className="text-2xl font-bold mb-2">Macro Fireej</h1>

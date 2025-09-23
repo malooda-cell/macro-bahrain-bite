@@ -2,10 +2,12 @@ import { MacroDisplay } from "@/components/MacroDisplay";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Trash2, TrendingUp } from "lucide-react";
+import { Calendar, Trash2, TrendingUp, Plus } from "lucide-react";
 import { useMealLogs } from "@/hooks/useMealLogs";
+import { useNavigate } from "react-router-dom";
 
 export default function DailyTracker() {
+  const navigate = useNavigate();
   // For now, use a dummy user ID - in a real app this would come from auth
   const dummyUserId = 'user_001';
   const today = new Date().toISOString().split('T')[0];
@@ -14,7 +16,7 @@ export default function DailyTracker() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
           <p className="text-muted-foreground">Loading meal logs...</p>
@@ -25,7 +27,7 @@ export default function DailyTracker() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <p className="text-destructive mb-4">Failed to load meal logs</p>
           <Button onClick={() => window.location.reload()}>Try Again</Button>
@@ -56,12 +58,12 @@ export default function DailyTracker() {
   const loggedMeals = mealLogs;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20">
       {/* Header */}
       <div className="bg-gradient-primary text-primary-foreground p-6 shadow-float">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold mb-1">Daily Tracker</h1>
+            <h1 className="text-2xl font-bold mb-1">My Log</h1>
             <div className="flex items-center text-primary-foreground/80">
               <Calendar className="w-4 h-4 mr-2" />
               <span>{new Date().toLocaleDateString('en-GB', { 
@@ -73,121 +75,123 @@ export default function DailyTracker() {
             </div>
           </div>
           <Badge variant="secondary" className="bg-primary-foreground/20 text-primary-foreground">
-            {mealLogs.length} meals logged
+            {mealLogs.length} meals
           </Badge>
         </div>
       </div>
 
       <div className="p-4 space-y-6">
-        {/* Macro Overview */}
+        {/* Today's Totals */}
         <Card className="bg-gradient-card shadow-card">
           <CardHeader>
             <CardTitle className="flex items-center">
               <TrendingUp className="w-5 h-5 mr-2 text-primary" />
-              Today's Progress
+              Today's Totals
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <MacroDisplay
-              label="Calories"
-              current={dailyTotals.calories}
-              target={targets.calories}
-              unit=""
-              color="primary"
-            />
-            <MacroDisplay
-              label="Protein"
-              current={dailyTotals.protein}
-              target={targets.protein}
-              unit="g"
-              color="success"
-            />
-            <MacroDisplay
-              label="Carbohydrates"
-              current={dailyTotals.carbs}
-              target={targets.carbs}
-              unit="g"
-              color="accent"
-            />
-            <MacroDisplay
-              label="Fat"
-              current={dailyTotals.fat}
-              target={targets.fat}
-              unit="g"
-              color="destructive"
-            />
+          <CardContent>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="text-center p-4 bg-primary/10 rounded-lg">
+                <div className="text-2xl font-bold text-primary">
+                  {Math.round(dailyTotals.calories)}
+                </div>
+                <div className="text-sm text-muted-foreground">Calories</div>
+              </div>
+              <div className="text-center p-4 bg-success/10 rounded-lg">
+                <div className="text-2xl font-bold text-success">
+                  {Math.round(dailyTotals.protein)}g
+                </div>
+                <div className="text-sm text-muted-foreground">Protein</div>
+              </div>
+              <div className="text-center p-4 bg-accent/10 rounded-lg">
+                <div className="text-2xl font-bold text-accent">
+                  {Math.round(dailyTotals.carbs)}g
+                </div>
+                <div className="text-sm text-muted-foreground">Carbs</div>
+              </div>
+              <div className="text-center p-4 bg-destructive/10 rounded-lg">
+                <div className="text-2xl font-bold text-destructive">
+                  {Math.round(dailyTotals.fat)}g
+                </div>
+                <div className="text-sm text-muted-foreground">Fat</div>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
-        {/* Logged Meals */}
+        {/* Meal Log Table */}
         <Card className="bg-gradient-card shadow-card">
           <CardHeader>
-            <CardTitle>Logged Meals</CardTitle>
+            <CardTitle className="flex items-center justify-between">
+              <span>Meal Log Entries</span>
+              <Button 
+                size="sm" 
+                onClick={() => navigate('/')}
+                className="bg-gradient-primary hover:opacity-90"
+              >
+                <Plus className="w-4 h-4 mr-1" />
+                Add Meal
+              </Button>
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            {loggedMeals.length === 0 ? (
+            {mealLogs.length === 0 ? (
               <div className="text-center py-8">
                 <p className="text-muted-foreground mb-4">No meals logged today</p>
-                <Button onClick={() => window.history.back()}>
+                <Button onClick={() => navigate('/')} className="bg-gradient-primary">
                   Browse Restaurants
                 </Button>
               </div>
             ) : (
-              <div className="space-y-3">
-                {loggedMeals.map((item) => (
+              <div className="space-y-1">
+                {/* Table Header */}
+                <div className="grid grid-cols-12 gap-2 pb-2 border-b border-border text-sm font-medium text-muted-foreground">
+                  <div className="col-span-5">Dish Name</div>
+                  <div className="col-span-2 text-center">Qty</div>
+                  <div className="col-span-3 text-center">Time</div>
+                  <div className="col-span-2 text-center">Action</div>
+                </div>
+
+                {/* Table Rows */}
+                {mealLogs.map((item) => (
                   <div 
                     key={item.id}
-                    className="flex items-center justify-between p-3 bg-muted/30 rounded-lg"
+                    className="grid grid-cols-12 gap-2 py-3 border-b border-border/50 hover:bg-muted/30 transition-colors"
                   >
-                    <div className="flex-1">
-                      <h4 className="font-medium text-card-foreground">
-                        {item.dishes?.dish_name}
-                      </h4>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
-                        <span>{item.dishes?.calories} cal</span>
-                        <span>{item.dishes?.protein_g}g protein</span>
-                        <span>Qty: {item.quantity}</span>
+                    <div className="col-span-5">
+                      <div className="font-medium text-card-foreground text-sm">
+                        {item.dishes?.dish_name || 'Unknown Dish'}
                       </div>
-                      <div className="text-xs text-muted-foreground mt-1">
-                        {new Date(item.logged_at).toLocaleTimeString('en-GB', {
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        })}
+                      <div className="text-xs text-muted-foreground">
+                        {item.dishes?.calories} cal
                       </div>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
+                    <div className="col-span-2 text-center">
+                      <Badge variant="outline" className="text-xs">
+                        {item.quantity}
+                      </Badge>
+                    </div>
+                    <div className="col-span-3 text-center text-xs text-muted-foreground">
+                      {new Date(item.logged_at).toLocaleTimeString('en-GB', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </div>
+                    <div className="col-span-2 text-center">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </Button>
+                    </div>
                   </div>
                 ))}
               </div>
             )}
           </CardContent>
         </Card>
-
-        {/* Quick Stats */}
-        <div className="grid grid-cols-2 gap-4">
-          <Card className="bg-gradient-card">
-            <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-primary">
-                {Math.round((dailyTotals.calories / targets.calories) * 100)}%
-              </div>
-              <div className="text-sm text-muted-foreground">Daily Goal</div>
-            </CardContent>
-          </Card>
-          <Card className="bg-gradient-card">
-            <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-success">
-                {dailyTotals.protein}g
-              </div>
-              <div className="text-sm text-muted-foreground">Protein Intake</div>
-            </CardContent>
-          </Card>
-        </div>
       </div>
     </div>
   );

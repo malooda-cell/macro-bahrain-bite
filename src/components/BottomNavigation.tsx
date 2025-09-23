@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, BarChart3 } from "lucide-react";
+import { Home, BookOpen, BarChart3 } from "lucide-react";
 
 export function BottomNavigation() {
   const location = useLocation();
@@ -9,13 +9,18 @@ export function BottomNavigation() {
   const navItems = [
     {
       icon: Home,
-      label: "Restaurants",
+      label: "Home",
       path: "/",
     },
     {
-      icon: BarChart3,
-      label: "Tracker",
+      icon: BookOpen,
+      label: "My Log",
       path: "/tracker",
+    },
+    {
+      icon: BarChart3,
+      label: "Dashboard",
+      path: "/dashboard",
     },
   ];
 
