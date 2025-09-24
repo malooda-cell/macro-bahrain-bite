@@ -2,17 +2,47 @@ import { MacroDisplay } from "@/components/MacroDisplay";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Trash2, TrendingUp, Plus } from "lucide-react";
-import { useMealLogs } from "@/hooks/useMealLogs";
+import { Input } from "@/components/ui/input";
+import { Calendar, Trash2, TrendingUp, Plus, Edit3, Check, X } from "lucide-react";
+import { useMealLogs, useUpdateMealLog, useDeleteMealLog } from "@/hooks/useMealLogs";
+import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function DailyTracker() {
   const navigate = useNavigate();
-  // For now, use a dummy user ID - in a real app this would come from auth
-  const dummyUserId = 'user_001';
+  const { user, isAuthenticated, loading: authLoading } = useAuth();
   const today = new Date().toISOString().split('T')[0];
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editQuantity, setEditQuantity] = useState<number>(1);
   
-  const { data: mealLogs = [], isLoading, error } = useMealLogs(dummyUserId, today);
+  const { data: mealLogs = [], isLoading, error } = useMealLogs(user?.id || '', today);
+  const updateMealLog = useUpdateMealLog();
+  const deleteMealLog = useDeleteMealLog();
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center p-6">
+          <h2 className="text-xl font-semibold mb-4">Sign in to view your meal log</h2>
+          <Button onClick={() => navigate('/auth')} className="bg-gradient-primary">
+            Sign In
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -55,7 +85,29 @@ export default function DailyTracker() {
     fat: 67
   };
 
-  const loggedMeals = mealLogs;
+  const handleEditQuantity = (id: string, currentQuantity: number) => {
+    setEditingId(id);
+    setEditQuantity(currentQuantity);
+  };
+
+  const handleSaveQuantity = () => {
+    if (editingId && editQuantity > 0) {
+      updateMealLog.mutate({
+        logId: editingId,
+        quantity: editQuantity
+      });
+      setEditingId(null);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setEditQuantity(1);
+  };
+
+  const handleDeleteMeal = (id: string) => {
+    deleteMealLog.mutate(id);
+  };
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -146,10 +198,10 @@ export default function DailyTracker() {
               <div className="space-y-1">
                 {/* Table Header */}
                 <div className="grid grid-cols-12 gap-2 pb-2 border-b border-border text-sm font-medium text-muted-foreground">
-                  <div className="col-span-5">Dish Name</div>
+                  <div className="col-span-4">Dish Name</div>
                   <div className="col-span-2 text-center">Qty</div>
                   <div className="col-span-3 text-center">Time</div>
-                  <div className="col-span-2 text-center">Action</div>
+                  <div className="col-span-3 text-center">Actions</div>
                 </div>
 
                 {/* Table Rows */}
@@ -158,7 +210,7 @@ export default function DailyTracker() {
                     key={item.id}
                     className="grid grid-cols-12 gap-2 py-3 border-b border-border/50 hover:bg-muted/30 transition-colors"
                   >
-                    <div className="col-span-5">
+                    <div className="col-span-4">
                       <div className="font-medium text-card-foreground text-sm">
                         {item.dishes?.dish_name || 'Unknown Dish'}
                       </div>
@@ -167,9 +219,20 @@ export default function DailyTracker() {
                       </div>
                     </div>
                     <div className="col-span-2 text-center">
-                      <Badge variant="outline" className="text-xs">
-                        {item.quantity}
-                      </Badge>
+                      {editingId === item.id ? (
+                        <Input
+                          type="number"
+                          value={editQuantity}
+                          onChange={(e) => setEditQuantity(Number(e.target.value))}
+                          min="0.1"
+                          step="0.1"
+                          className="h-6 w-12 text-xs text-center"
+                        />
+                      ) : (
+                        <Badge variant="outline" className="text-xs">
+                          {item.quantity}
+                        </Badge>
+                      )}
                     </div>
                     <div className="col-span-3 text-center text-xs text-muted-foreground">
                       {new Date(item.logged_at).toLocaleTimeString('en-GB', {
@@ -177,14 +240,46 @@ export default function DailyTracker() {
                         minute: '2-digit'
                       })}
                     </div>
-                    <div className="col-span-2 text-center">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
-                      >
-                        <Trash2 className="w-3 h-3" />
-                      </Button>
+                    <div className="col-span-3 text-center flex justify-center gap-1">
+                      {editingId === item.id ? (
+                        <>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={handleSaveQuantity}
+                            className="h-6 w-6 p-0 text-success hover:text-success hover:bg-success/10"
+                          >
+                            <Check className="w-3 h-3" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={handleCancelEdit}
+                            className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                          >
+                            <X className="w-3 h-3" />
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleEditQuantity(item.id, item.quantity)}
+                            className="h-6 w-6 p-0 text-accent hover:text-accent hover:bg-accent/10"
+                          >
+                            <Edit3 className="w-3 h-3" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDeleteMeal(item.id)}
+                            className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </Button>
+                        </>
+                      )}
                     </div>
                   </div>
                 ))}

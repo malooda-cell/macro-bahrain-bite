@@ -3,14 +3,40 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TrendingUp, Calendar, Target } from "lucide-react";
 import { useMealLogs } from "@/hooks/useMealLogs";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 
 export default function Dashboard() {
-  // For now, use a dummy user ID - in a real app this would come from auth
-  const dummyUserId = 'user_001';
+  const { user, isAuthenticated, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
   const today = new Date().toISOString().split('T')[0];
   
-  const { data: mealLogs = [], isLoading, error } = useMealLogs(dummyUserId, today);
+  const { data: mealLogs = [], isLoading, error } = useMealLogs(user?.id || '', today);
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center p-6">
+          <h2 className="text-xl font-semibold mb-4">Sign in to view your dashboard</h2>
+          <Button onClick={() => navigate('/auth')} className="bg-gradient-primary">
+            Sign In
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (

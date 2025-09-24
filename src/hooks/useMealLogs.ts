@@ -86,7 +86,7 @@ export const useAddMealLog = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['mealLogs'] })
       toast({
-        title: "Meal Added",
+        title: "Logged!",
         description: "Successfully added to your daily log",
       })
     },
@@ -97,6 +97,73 @@ export const useAddMealLog = () => {
         variant: "destructive"
       })
       console.error('Error adding meal log:', error)
+    }
+  })
+}
+
+export const useUpdateMealLog = () => {
+  const queryClient = useQueryClient()
+  const { toast } = useToast()
+  
+  return useMutation({
+    mutationFn: async ({ logId, quantity }: { 
+      logId: string
+      quantity: number
+    }) => {
+      const { data, error } = await supabase
+        .from('meal_logs')
+        .update({ quantity })
+        .eq('id', logId)
+        .select()
+      
+      if (error) throw error
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['mealLogs'] })
+      toast({
+        title: "Updated",
+        description: "Meal quantity updated successfully",
+      })
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to update meal quantity",
+        variant: "destructive"
+      })
+      console.error('Error updating meal log:', error)
+    }
+  })
+}
+
+export const useDeleteMealLog = () => {
+  const queryClient = useQueryClient()
+  const { toast } = useToast()
+  
+  return useMutation({
+    mutationFn: async (logId: string) => {
+      const { error } = await supabase
+        .from('meal_logs')
+        .delete()
+        .eq('id', logId)
+      
+      if (error) throw error
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['mealLogs'] })
+      toast({
+        title: "Deleted",
+        description: "Meal removed from log",
+      })
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to delete meal",
+        variant: "destructive"
+      })
+      console.error('Error deleting meal log:', error)
     }
   })
 }

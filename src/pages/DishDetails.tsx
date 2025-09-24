@@ -6,11 +6,13 @@ import { ArrowLeft, Plus, Zap } from "lucide-react";
 import { useDish } from "@/hooks/useDishes";
 import { useAddMealLog } from "@/hooks/useMealLogs";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function DishDetails() {
   const { dishId, restaurantId } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user, isAuthenticated } = useAuth();
   
   const { data: dish, isLoading } = useDish(dishId!);
   const addMealLog = useAddMealLog();
@@ -38,11 +40,19 @@ export default function DishDetails() {
   }
 
   const handleAddToLog = () => {
-    // For now, use a dummy user ID - in a real app this would come from auth
-    const dummyUserId = 'user_001';
+    if (!isAuthenticated) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to add meals to your log",
+        variant: "destructive"
+      });
+      navigate('/auth');
+      return;
+    }
+    
     addMealLog.mutate({ 
       dishId: dish.dish_id, 
-      userId: dummyUserId 
+      userId: user!.id 
     });
   };
 

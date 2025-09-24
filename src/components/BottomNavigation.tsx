@@ -1,10 +1,17 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, BookOpen, BarChart3 } from "lucide-react";
+import { Home, BookOpen, BarChart3, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 export function BottomNavigation() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { isAuthenticated, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/auth');
+  };
 
   const navItems = [
     {
@@ -15,7 +22,7 @@ export function BottomNavigation() {
     {
       icon: BookOpen,
       label: "My Log",
-      path: "/tracker",
+      path: "/my-log",
     },
     {
       icon: BarChart3,
@@ -23,6 +30,11 @@ export function BottomNavigation() {
       path: "/dashboard",
     },
   ];
+
+  // Hide navigation on auth page
+  if (location.pathname === '/auth') {
+    return null;
+  }
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-float">
@@ -47,6 +59,17 @@ export function BottomNavigation() {
             </Button>
           );
         })}
+        
+        {isAuthenticated && (
+          <Button
+            variant="ghost"
+            className="flex-1 h-16 flex-col gap-1 rounded-none text-destructive hover:text-destructive hover:bg-destructive/10"
+            onClick={handleSignOut}
+          >
+            <LogOut className="w-5 h-5" />
+            <span className="text-xs">Sign Out</span>
+          </Button>
+        )}
       </div>
     </div>
   );
