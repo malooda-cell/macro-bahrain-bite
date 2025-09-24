@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
+import { ArrowLeft } from 'lucide-react';
 import { z } from 'zod';
 
 const authSchema = z.object({
@@ -66,8 +67,16 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-gradient-card shadow-card">
-        <CardHeader>
+      <Card className="w-full max-w-md bg-gradient-card shadow-card relative">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate('/')}
+          className="absolute top-4 left-4 text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="w-4 h-4" />
+        </Button>
+        <CardHeader className="pt-12">
           <CardTitle className="text-center text-2xl font-bold">
             {isLogin ? 'Sign In' : 'Sign Up'}
           </CardTitle>
