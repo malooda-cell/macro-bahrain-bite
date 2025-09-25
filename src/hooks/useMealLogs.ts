@@ -71,6 +71,11 @@ export const useAddMealLog = () => {
       userId: string  
       quantity?: number
     }) => {
+      // Validate quantity
+      if (!Number.isInteger(quantity) || quantity < 1 || quantity > 5) {
+        throw new Error('Quantity must be a whole number between 1 and 5');
+      }
+      
       const { data, error } = await supabase
         .from('meal_logs')
         .insert({
@@ -110,6 +115,11 @@ export const useUpdateMealLog = () => {
       logId: string
       quantity: number
     }) => {
+      // Validate quantity
+      if (!Number.isInteger(quantity) || quantity < 1 || quantity > 5) {
+        throw new Error('Quantity must be a whole number between 1 and 5');
+      }
+      
       const { data, error } = await supabase
         .from('meal_logs')
         .update({ quantity })

@@ -1,9 +1,9 @@
 import { MacroDisplay } from "@/components/MacroDisplay";
+import { QuantityEditor } from "@/components/QuantityEditor";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Calendar, Trash2, TrendingUp, Plus, Edit3, Check, X } from "lucide-react";
+import { Calendar, Trash2, TrendingUp, Plus } from "lucide-react";
 import { useMealLogs, useUpdateMealLog, useDeleteMealLog } from "@/hooks/useMealLogs";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +13,6 @@ export default function DailyTracker() {
   const navigate = useNavigate();
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const today = new Date().toISOString().split('T')[0];
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editQuantity, setEditQuantity] = useState<number>(1);
   
   const { data: mealLogs = [], isLoading, error } = useMealLogs(user?.id || '', today);
   const updateMealLog = useUpdateMealLog();
@@ -85,24 +83,11 @@ export default function DailyTracker() {
     fat: 67
   };
 
-  const handleEditQuantity = (id: string, currentQuantity: number) => {
-    setEditingId(id);
-    setEditQuantity(currentQuantity);
-  };
-
-  const handleSaveQuantity = () => {
-    if (editingId && editQuantity > 0) {
-      updateMealLog.mutate({
-        logId: editingId,
-        quantity: editQuantity
-      });
-      setEditingId(null);
-    }
-  };
-
-  const handleCancelEdit = () => {
-    setEditingId(null);
-    setEditQuantity(1);
+  const handleUpdateQuantity = (logId: string, quantity: number) => {
+    updateMealLog.mutate({
+      logId,
+      quantity
+    });
   };
 
   const handleDeleteMeal = (id: string) => {
@@ -188,8 +173,12 @@ export default function DailyTracker() {
           </CardHeader>
           <CardContent>
             {mealLogs.length === 0 ? (
-              <div className="text-center py-8">
-                <p className="text-muted-foreground mb-4">No meals logged today</p>
+              <div className="text-center py-16">
+                <div className="w-16 h-16 mx-auto mb-4 bg-muted rounded-full flex items-center justify-center">
+                  <Plus className="w-8 h-8 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">You haven't logged a meal yet</h3>
+                <p className="text-muted-foreground mb-4">Find a dish and tap 'Add to Log'</p>
                 <Button onClick={() => navigate('/')} className="bg-gradient-primary">
                   Browse Restaurants
                 </Button>
@@ -218,21 +207,12 @@ export default function DailyTracker() {
                         {item.dishes?.calories} cal
                       </div>
                     </div>
-                    <div className="col-span-2 text-center">
-                      {editingId === item.id ? (
-                        <Input
-                          type="number"
-                          value={editQuantity}
-                          onChange={(e) => setEditQuantity(Number(e.target.value))}
-                          min="0.1"
-                          step="0.1"
-                          className="h-6 w-12 text-xs text-center"
-                        />
-                      ) : (
-                        <Badge variant="outline" className="text-xs">
-                          {item.quantity}
-                        </Badge>
-                      )}
+                    <div className="col-span-2 flex justify-center">
+                      <QuantityEditor
+                        initialQuantity={item.quantity}
+                        onSave={(quantity) => handleUpdateQuantity(item.id, quantity)}
+                        isLoading={updateMealLog.isPending}
+                      />
                     </div>
                     <div className="col-span-3 text-center text-xs text-muted-foreground">
                       {new Date(item.logged_at).toLocaleTimeString('en-GB', {
@@ -240,46 +220,16 @@ export default function DailyTracker() {
                         minute: '2-digit'
                       })}
                     </div>
-                    <div className="col-span-3 text-center flex justify-center gap-1">
-                      {editingId === item.id ? (
-                        <>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={handleSaveQuantity}
-                            className="h-6 w-6 p-0 text-success hover:text-success hover:bg-success/10"
-                          >
-                            <Check className="w-3 h-3" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={handleCancelEdit}
-                            className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                          >
-                            <X className="w-3 h-3" />
-                          </Button>
-                        </>
-                      ) : (
-                        <>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleEditQuantity(item.id, item.quantity)}
-                            className="h-6 w-6 p-0 text-accent hover:text-accent hover:bg-accent/10"
-                          >
-                            <Edit3 className="w-3 h-3" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleDeleteMeal(item.id)}
-                            className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
-                          >
-                            <Trash2 className="w-3 h-3" />
-                          </Button>
-                        </>
-                      )}
+                    <div className="col-span-3 text-center flex justify-center">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDeleteMeal(item.id)}
+                        disabled={deleteMealLog.isPending}
+                        className="h-6 w-6 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </Button>
                     </div>
                   </div>
                 ))}

@@ -33,19 +33,16 @@ export function DishCard({ dish, onAddToLog, onViewDetails }: DishCardProps) {
           </Badge>
         </div>
         
-        <div className="grid grid-cols-3 gap-2 mb-3 text-xs">
-          <div className="text-center p-2 bg-muted/50 rounded">
-            <div className="font-semibold text-primary">{dish.protein_g}g</div>
-            <div className="text-muted-foreground">Protein</div>
-          </div>
-          <div className="text-center p-2 bg-muted/50 rounded">
-            <div className="font-semibold text-accent">{dish.carbs_g}g</div>
-            <div className="text-muted-foreground">Carbs</div>
-          </div>
-          <div className="text-center p-2 bg-muted/50 rounded">
-            <div className="font-semibold text-destructive">{dish.fat_g}g</div>
-            <div className="text-muted-foreground">Fat</div>
-          </div>
+        <div className="flex flex-wrap gap-2 mb-3">
+          <Badge variant="secondary" className="text-xs font-medium bg-primary/10 text-primary border-0">
+            P: {dish.protein_g}g
+          </Badge>
+          <Badge variant="secondary" className="text-xs font-medium bg-accent/10 text-accent border-0">
+            C: {dish.carbs_g}g
+          </Badge>
+          <Badge variant="secondary" className="text-xs font-medium bg-destructive/10 text-destructive border-0">
+            F: {dish.fat_g}g
+          </Badge>
         </div>
         
         <p className="text-xs text-muted-foreground mb-3 line-clamp-2">

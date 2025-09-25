@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { DishCard } from "@/components/DishCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, MapPin, Star } from "lucide-react";
+import { ArrowLeft, MapPin, Star, Plus } from "lucide-react";
 import { useRestaurant } from "@/hooks/useRestaurants";
 import { useDishes, type Dish } from "@/hooks/useDishes";
 import { useAddMealLog } from "@/hooks/useMealLogs";
@@ -111,8 +111,12 @@ export default function RestaurantDetail() {
         </div>
 
         {dishes.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">No dishes available for this restaurant</p>
+          <div className="text-center py-16">
+            <div className="w-16 h-16 mx-auto mb-4 bg-muted rounded-full flex items-center justify-center">
+              <Plus className="w-8 h-8 text-muted-foreground" />
+            </div>
+            <h3 className="text-lg font-semibold mb-2">No dishes found for this cafeteria</h3>
+            <p className="text-muted-foreground">The menu will be updated soon!</p>
           </div>
         )}
       </div>

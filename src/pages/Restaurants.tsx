@@ -110,19 +110,28 @@ export default function Restaurants() {
           ))}
         </div>
 
-        {filteredRestaurants.length === 0 && (
+        {filteredRestaurants.length === 0 && restaurants.length > 0 && (
           <div className="text-center py-12">
-            <p className="text-muted-foreground">No restaurants found matching your criteria</p>
+            <p className="text-muted-foreground mb-4">No restaurants found matching your criteria</p>
             <Button
               variant="outline"
               onClick={() => {
                 setSearchTerm("");
                 setSelectedNeighborhood(null);
               }}
-              className="mt-4"
             >
               Clear Filters
             </Button>
+          </div>
+        )}
+
+        {restaurants.length === 0 && (
+          <div className="text-center py-16">
+            <div className="w-16 h-16 mx-auto mb-4 bg-muted rounded-full flex items-center justify-center">
+              <Search className="w-8 h-8 text-muted-foreground" />
+            </div>
+            <h3 className="text-lg font-semibold mb-2">No cafeterias yet</h3>
+            <p className="text-muted-foreground">Check back soon for new locations!</p>
           </div>
         )}
       </div>
