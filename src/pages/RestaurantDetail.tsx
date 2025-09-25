@@ -7,11 +7,13 @@ import { useRestaurant } from "@/hooks/useRestaurants";
 import { useDishes, type Dish } from "@/hooks/useDishes";
 import { useAddMealLog } from "@/hooks/useMealLogs";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function RestaurantDetail() {
   const { restaurantId } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user, isAuthenticated } = useAuth();
   
   const { data: restaurant, isLoading: restaurantLoading } = useRestaurant(restaurantId!);
   const { data: dishes = [], isLoading: dishesLoading } = useDishes(restaurantId);
@@ -42,11 +44,19 @@ export default function RestaurantDetail() {
   }
 
   const handleAddToLog = (dish: Dish) => {
-    // For now, use a dummy user ID - in a real app this would come from auth
-    const dummyUserId = 'user_001';
+    if (!isAuthenticated) {
+      toast({
+        title: "Sign in required",
+        description: "Please create an account or sign in to add meals to your log",
+        variant: "destructive"
+      });
+      navigate('/auth');
+      return;
+    }
+    
     addMealLog.mutate({ 
       dishId: dish.dish_id, 
-      userId: dummyUserId 
+      userId: user!.id 
     });
   };
 
