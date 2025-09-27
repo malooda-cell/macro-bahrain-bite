@@ -62,7 +62,7 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-gradient-card shadow-card relative">
+      <Card className="w-full max-w-md bg-white border-border/40 rounded-2xl shadow-card relative">
         <Button
           variant="ghost"
           size="sm"
@@ -91,7 +91,8 @@ export default function Auth() {
             </div>
             <Button 
               type="submit" 
-              className="w-full bg-gradient-primary hover:opacity-90"
+              variant="primary"
+              className="w-full"
               disabled={loading}
             >
               {loading ? 'Sending magic link...' : 'Send Magic Link'}

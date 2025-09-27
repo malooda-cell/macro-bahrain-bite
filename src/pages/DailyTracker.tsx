@@ -34,7 +34,7 @@ export default function DailyTracker() {
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center p-6">
           <h2 className="text-xl font-semibold mb-4">Sign in to view your meal log</h2>
-          <Button onClick={() => navigate('/auth')} className="bg-gradient-primary">
+          <Button onClick={() => navigate('/auth')} variant="primary">
             Sign In
           </Button>
         </div>
@@ -97,13 +97,13 @@ export default function DailyTracker() {
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
-      <div className="bg-gradient-primary text-primary-foreground p-6 shadow-float">
+      <div className="bg-secondary border-b border-border/20 p-8 shadow-soft">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold mb-1">My Log</h1>
-            <div className="flex items-center text-primary-foreground/80">
-              <Calendar className="w-4 h-4 mr-2" />
-              <span>{new Date().toLocaleDateString('en-GB', { 
+            <h1 className="text-3xl font-bold mb-3 text-foreground">My Log</h1>
+            <div className="flex items-center text-muted-foreground">
+              <Calendar className="w-5 h-5 mr-2" />
+              <span className="text-lg">{new Date().toLocaleDateString('en-GB', { 
                 weekday: 'long', 
                 year: 'numeric', 
                 month: 'long', 
@@ -111,7 +111,7 @@ export default function DailyTracker() {
               })}</span>
             </div>
           </div>
-          <Badge variant="secondary" className="bg-primary-foreground/20 text-primary-foreground">
+          <Badge variant="secondary" className="rounded-full px-4 py-2">
             {mealLogs.length} meals
           </Badge>
         </div>
@@ -119,7 +119,7 @@ export default function DailyTracker() {
 
       <div className="p-4 space-y-6">
         {/* Today's Totals */}
-        <Card className="bg-gradient-card shadow-card">
+        <Card className="bg-white border-border/40 rounded-2xl">
           <CardHeader>
             <CardTitle className="flex items-center">
               <TrendingUp className="w-5 h-5 mr-2 text-primary" />
@@ -157,14 +157,14 @@ export default function DailyTracker() {
         </Card>
 
         {/* Meal Log Table */}
-        <Card className="bg-gradient-card shadow-card">
+        <Card className="bg-white border-border/40 rounded-2xl">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <span>Meal Log Entries</span>
               <Button 
+                variant="primary"
                 size="sm" 
                 onClick={() => navigate('/')}
-                className="bg-gradient-primary hover:opacity-90"
               >
                 <Plus className="w-4 h-4 mr-1" />
                 Add Meal
@@ -179,7 +179,7 @@ export default function DailyTracker() {
                 </div>
                 <h3 className="text-lg font-semibold mb-2">You haven't logged a meal yet</h3>
                 <p className="text-muted-foreground mb-4">Find a dish and tap 'Add to Log'</p>
-                <Button onClick={() => navigate('/')} className="bg-gradient-primary">
+                <Button onClick={() => navigate('/')} variant="primary">
                   Browse Restaurants
                 </Button>
               </div>
