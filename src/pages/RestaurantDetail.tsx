@@ -67,7 +67,7 @@ export default function RestaurantDetail() {
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
-      <div className="bg-white border-b border-border/20 p-8 shadow-soft">
+      <div className="bg-secondary border-b border-border/20 p-8 shadow-soft">
         <Button
           variant="ghost"
           size="sm"
@@ -92,7 +92,7 @@ export default function RestaurantDetail() {
                 <Utensils className="w-3 h-3" />
                 {restaurant.cuisine}
               </Badge>
-              <Badge variant="secondary" className="bg-secondary text-secondary-foreground rounded-full px-4 py-2">
+              <Badge variant="secondary" className="bg-white/60 text-secondary-foreground rounded-full px-4 py-2">
                 {restaurant.price_band}
               </Badge>
             </div>
