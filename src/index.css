@@ -36,7 +36,7 @@ All colors MUST be HSL.
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 142 23% 85%;
+    --border: 113 75% 87%;
     --input: 113 75% 92%;
     --ring: 119 66% 45%;
 
@@ -47,7 +47,7 @@ All colors MUST be HSL.
     /* Custom gradients */
     --gradient-primary: linear-gradient(135deg, hsl(119 66% 45%), hsl(119 66% 55%));
     --gradient-accent: linear-gradient(135deg, hsl(142 23% 79%), hsl(113 75% 87%));
-    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(113 75% 96%));
+    --gradient-card: none;
 
     /* Shadows */
     --shadow-soft: 0 2px 8px hsla(142, 50%, 15%, 0.08);
