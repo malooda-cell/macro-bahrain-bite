@@ -10,16 +10,13 @@ import { ArrowLeft } from 'lucide-react';
 import { z } from 'zod';
 
 const authSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters')
+  email: z.string().email('Invalid email address')
 });
 
 export default function Auth() {
-  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn, signUp, isAuthenticated } = useAuth();
+  const { signInWithMagicLink, isAuthenticated } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -34,11 +31,9 @@ export default function Auth() {
     setLoading(true);
 
     try {
-      const validatedData = authSchema.parse({ email, password });
+      const validatedData = authSchema.parse({ email });
       
-      const { error } = isLogin 
-        ? await signIn(validatedData.email, validatedData.password)
-        : await signUp(validatedData.email, validatedData.password);
+      const { error } = await signInWithMagicLink(validatedData.email);
 
       if (error) {
         toast({
@@ -46,10 +41,10 @@ export default function Auth() {
           description: error.message,
           variant: "destructive"
         });
-      } else if (!isLogin) {
+      } else {
         toast({
-          title: "Success",
-          description: "Check your email to confirm your account"
+          title: "Magic link sent!",
+          description: "Check your email for a sign-in link"
         });
       }
     } catch (error) {
@@ -78,7 +73,7 @@ export default function Auth() {
         </Button>
         <CardHeader className="pt-12">
           <CardTitle className="text-center text-2xl font-bold">
-            {isLogin ? 'Sign In' : 'Sign Up'}
+            Sign In
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -91,16 +86,7 @@ export default function Auth() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-              />
-            </div>
-            <div>
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+                placeholder="Enter your email address"
               />
             </div>
             <Button 
@@ -108,18 +94,14 @@ export default function Auth() {
               className="w-full bg-gradient-primary hover:opacity-90"
               disabled={loading}
             >
-              {loading ? 'Loading...' : (isLogin ? 'Sign In' : 'Sign Up')}
+              {loading ? 'Sending magic link...' : 'Send Magic Link'}
             </Button>
           </form>
           
           <div className="mt-4 text-center">
-            <Button
-              variant="ghost"
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-sm text-muted-foreground hover:text-foreground"
-            >
-              {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
-            </Button>
+            <p className="text-sm text-muted-foreground">
+              We'll send you a secure link to sign in without a password
+            </p>
           </div>
         </CardContent>
       </Card>
