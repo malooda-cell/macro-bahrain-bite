@@ -48,9 +48,9 @@ export default function Restaurants() {
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
-      <div className="bg-gradient-primary text-primary-foreground p-8 shadow-float rounded-b-3xl">
-        <h1 className="text-3xl font-bold mb-3 text-white">Macro Fireej</h1>
-        <p className="text-white/90 text-lg">Discover healthy cafeterias in Bahrain</p>
+      <div className="bg-white border-b border-border/20 p-8 shadow-soft">
+        <h1 className="text-3xl font-bold mb-3 text-foreground">Macro Fireej</h1>
+        <p className="text-muted-foreground text-lg">Discover healthy cafeterias in Bahrain</p>
       </div>
 
       {/* Search and Filters */}

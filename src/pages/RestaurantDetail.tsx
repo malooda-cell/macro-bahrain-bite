@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { DishCard } from "@/components/DishCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, MapPin, Star, Plus } from "lucide-react";
+import { ArrowLeft, MapPin, Star, Plus, Utensils } from "lucide-react";
 import { useRestaurant } from "@/hooks/useRestaurants";
 import { useDishes, type Dish } from "@/hooks/useDishes";
 import { useAddMealLog } from "@/hooks/useMealLogs";
@@ -67,12 +67,12 @@ export default function RestaurantDetail() {
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
-      <div className="bg-gradient-primary text-primary-foreground p-8 shadow-float rounded-b-3xl">
+      <div className="bg-white border-b border-border/20 p-8 shadow-soft">
         <Button
           variant="ghost"
           size="sm"
           onClick={() => navigate("/")}
-          className="mb-4 text-white hover:bg-white/20 rounded-xl"
+          className="mb-4 text-muted-foreground hover:bg-muted rounded-xl"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Restaurants
@@ -80,23 +80,24 @@ export default function RestaurantDetail() {
         
         <div className="flex justify-between items-start">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-3">
+            <h1 className="text-3xl font-bold text-foreground mb-3">
               {restaurant.restaurant_name}
             </h1>
-            <div className="flex items-center text-white/90 mb-3">
+            <div className="flex items-center text-muted-foreground mb-3">
               <MapPin className="w-5 h-5 mr-2" />
               <span className="text-lg">{restaurant.neighborhood}</span>
             </div>
             <div className="flex items-center gap-3">
-              <Badge variant="outline" className="border-white/30 text-white rounded-full px-4 py-2">
+              <Badge variant="outline" className="border-border text-foreground rounded-full px-4 py-2 flex items-center gap-1">
+                <Utensils className="w-3 h-3" />
                 {restaurant.cuisine}
               </Badge>
-              <Badge variant="secondary" className="bg-white/20 text-white rounded-full px-4 py-2">
+              <Badge variant="secondary" className="bg-secondary text-secondary-foreground rounded-full px-4 py-2">
                 {restaurant.price_band}
               </Badge>
             </div>
           </div>
-          <div className="flex items-center text-white">
+          <div className="flex items-center text-primary">
             <Star className="w-6 h-6 fill-current" />
             <span className="ml-2 font-medium text-lg">4.2</span>
           </div>
