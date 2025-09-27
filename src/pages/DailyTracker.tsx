@@ -150,8 +150,8 @@ export default function DailyTracker() {
                 </div>
                 <div className="text-sm text-muted-foreground">Protein</div>
               </div>
-              <div className="text-center p-4 bg-accent/10 rounded-lg">
-                <div className="text-2xl font-bold text-accent">
+              <div className="text-center p-4 bg-amber/10 rounded-lg">
+                <div className="text-2xl font-bold text-amber">
                   {Math.round(dailyTotals.carbs)}g
                 </div>
                 <div className="text-sm text-muted-foreground">Carbs</div>

@@ -30,8 +30,6 @@ export function QuantitySelectionModal({
 }: QuantitySelectionModalProps) {
   const [quantity, setQuantity] = useState(1);
 
-  console.log('QuantitySelectionModal rendered, isOpen:', isOpen);
-
   const handleClose = () => {
     setQuantity(1);
     onClose();
@@ -129,8 +127,8 @@ export function QuantitySelectionModal({
                 <div className="text-sm font-bold text-success">{totalProtein}g</div>
                 <div className="text-xs text-muted-foreground">Protein</div>
               </div>
-              <div className="text-center p-2 bg-accent/10 rounded-lg">
-                <div className="text-sm font-bold text-accent">{totalCarbs}g</div>
+              <div className="text-center p-2 bg-amber/10 rounded-lg">
+                <div className="text-sm font-bold text-amber">{totalCarbs}g</div>
                 <div className="text-xs text-muted-foreground">Carbs</div>
               </div>
               <div className="text-center p-2 bg-destructive/10 rounded-lg">

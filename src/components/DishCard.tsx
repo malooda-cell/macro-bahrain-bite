@@ -25,7 +25,6 @@ export function DishCard({ dish, onAddToLog, onViewDetails }: DishCardProps) {
   const [showQuantityModal, setShowQuantityModal] = useState(false);
 
   const handleQuantityConfirm = (quantity: number) => {
-    console.log('Adding meal with quantity:', quantity);
     onAddToLog(dish, quantity);
   };
 
@@ -54,7 +53,7 @@ export function DishCard({ dish, onAddToLog, onViewDetails }: DishCardProps) {
           <Badge variant="secondary" className="text-xs font-medium bg-primary/15 text-primary border-0 rounded-full px-3 py-1">
             Protein: {dish.protein_g}g
           </Badge>
-          <Badge variant="secondary" className="text-xs font-medium bg-accent/15 text-accent-foreground border-0 rounded-full px-3 py-1">
+          <Badge variant="secondary" className="text-xs font-medium bg-amber/15 text-amber border-0 rounded-full px-3 py-1">
             Carbs: {dish.carbs_g}g
           </Badge>
           <Badge variant="secondary" className="text-xs font-medium bg-destructive/15 text-destructive border-0 rounded-full px-3 py-1">
@@ -79,10 +78,7 @@ export function DishCard({ dish, onAddToLog, onViewDetails }: DishCardProps) {
             variant="primary"
             size="sm" 
             className="flex-1 rounded-xl"
-            onClick={() => {
-              console.log('Add to Log button clicked');
-              setShowQuantityModal(true);
-            }}
+            onClick={() => setShowQuantityModal(true)}
           >
             <Plus className="w-4 h-4 mr-1" />
             Add to Log

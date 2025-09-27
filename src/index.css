@@ -33,6 +33,10 @@ All colors MUST be HSL.
     --accent: 142 23% 79%;
     --accent-foreground: 142 50% 15%;
 
+    /* Amber for Carbs */
+    --amber: 45 93% 47%;
+    --amber-foreground: 0 0% 100%;
+
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
 
@@ -100,6 +104,9 @@ All colors MUST be HSL.
 
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
+
+    --amber: 45 93% 47%;
+    --amber-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;

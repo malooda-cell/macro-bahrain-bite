@@ -82,7 +82,7 @@ export default function Dashboard() {
   // Prepare chart data
   const macroData = [
     { name: 'Protein', value: Math.round(dailyTotals.protein), color: 'hsl(var(--success))' },
-    { name: 'Carbs', value: Math.round(dailyTotals.carbs), color: 'hsl(var(--accent))' },
+    { name: 'Carbs', value: Math.round(dailyTotals.carbs), color: 'hsl(var(--amber))' },
     { name: 'Fat', value: Math.round(dailyTotals.fat), color: 'hsl(var(--destructive))' }
   ];
 
@@ -175,11 +175,11 @@ export default function Dashboard() {
 
           <Card className="bg-white border-border/40 rounded-2xl shadow-card">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold text-accent mb-1">
+              <div className="text-3xl font-bold text-amber mb-1">
                 {Math.round(dailyTotals.carbs)}g
               </div>
               <div className="text-sm text-muted-foreground mb-2">Carbs</div>
-              <div className="text-xs text-accent">
+              <div className="text-xs text-amber">
                 {Math.round((dailyTotals.carbs / targets.carbs) * 100)}% of goal
               </div>
             </CardContent>

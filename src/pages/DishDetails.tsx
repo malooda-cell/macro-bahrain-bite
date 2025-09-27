@@ -135,8 +135,8 @@ export default function DishDetails() {
                 <div className="text-xl font-bold text-success">{dish.protein_g}g</div>
                 <div className="text-xs text-muted-foreground">Protein</div>
               </div>
-              <div className="text-center p-3 bg-accent/10 rounded-lg">
-                <div className="text-xl font-bold text-accent">{dish.carbs_g}g</div>
+              <div className="text-center p-3 bg-amber/10 rounded-lg">
+                <div className="text-xl font-bold text-amber">{dish.carbs_g}g</div>
                 <div className="text-xs text-muted-foreground">Carbs</div>
               </div>
               <div className="text-center p-3 bg-destructive/10 rounded-lg">
