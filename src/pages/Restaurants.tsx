@@ -49,19 +49,19 @@ export default function Restaurants() {
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
       <div className="bg-secondary border-b border-border/20 p-8 shadow-soft">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold mb-3 text-foreground">Macro Fireej</h1>
-            <p className="text-muted-foreground text-lg">Discover healthy cafeterias in Bahrain</p>
+        <div>
+          <h1 className="text-3xl font-bold mb-3 text-foreground">Macro Fireej</h1>
+          <p className="text-muted-foreground text-lg mb-4">Discover healthy cafeterias in Bahrain</p>
+          <div className="inline-block">
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => navigate('/about')}
+              className="rounded-full bg-background/80 backdrop-blur-sm border-border/40 text-foreground hover:bg-background text-sm px-4 py-2"
+            >
+              About
+            </Button>
           </div>
-          <Button 
-            variant="ghost" 
-            size="sm"
-            onClick={() => navigate('/about')}
-            className="rounded-xl text-muted-foreground hover:text-foreground"
-          >
-            About
-          </Button>
         </div>
       </div>
 
