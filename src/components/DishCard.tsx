@@ -25,6 +25,7 @@ export function DishCard({ dish, onAddToLog, onViewDetails }: DishCardProps) {
   const [showQuantityModal, setShowQuantityModal] = useState(false);
 
   const handleQuantityConfirm = (quantity: number) => {
+    console.log('Adding meal with quantity:', quantity);
     onAddToLog(dish, quantity);
   };
 
@@ -78,7 +79,10 @@ export function DishCard({ dish, onAddToLog, onViewDetails }: DishCardProps) {
             variant="primary"
             size="sm" 
             className="flex-1 rounded-xl"
-            onClick={() => setShowQuantityModal(true)}
+            onClick={() => {
+              console.log('Add to Log button clicked');
+              setShowQuantityModal(true);
+            }}
           >
             <Plus className="w-4 h-4 mr-1" />
             Add to Log

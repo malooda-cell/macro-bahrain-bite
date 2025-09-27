@@ -30,6 +30,8 @@ export function QuantitySelectionModal({
 }: QuantitySelectionModalProps) {
   const [quantity, setQuantity] = useState(1);
 
+  console.log('QuantitySelectionModal rendered, isOpen:', isOpen);
+
   const handleClose = () => {
     setQuantity(1);
     onClose();
