@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Star } from "lucide-react";
+import { MapPin, Star, Utensils } from "lucide-react";
 
 interface Restaurant {
   restaurant_id: string;
@@ -46,7 +46,8 @@ export function RestaurantCard({ restaurant, onClick }: RestaurantCardProps) {
         </div>
         
         <div className="flex items-center justify-between">
-          <Badge variant="outline" className="text-xs">
+          <Badge variant="outline" className="text-xs flex items-center gap-1">
+            <Utensils className="w-3 h-3" />
             {restaurant.cuisine}
           </Badge>
           <div className="flex items-center text-accent">
