@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -7,12 +8,14 @@ import { useDish } from "@/hooks/useDishes";
 import { useAddMealLog } from "@/hooks/useMealLogs";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
+import { QuantitySelectionModal } from "@/components/QuantitySelectionModal";
 
 export default function DishDetails() {
   const { dishId, restaurantId } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user, isAuthenticated } = useAuth();
+  const [showQuantityModal, setShowQuantityModal] = useState(false);
   
   const { data: dish, isLoading } = useDish(dishId!);
   const addMealLog = useAddMealLog();
@@ -50,13 +53,27 @@ export default function DishDetails() {
       return;
     }
     
+    setShowQuantityModal(true);
+  };
+
+  const handleQuantityConfirm = (quantity: number) => {
     addMealLog.mutate({ 
-      dishId: dish.dish_id, 
-      userId: user!.id 
+      dishId: dish!.dish_id, 
+      userId: user!.id,
+      quantity 
     });
   };
 
   return (
+    <>
+      <QuantitySelectionModal
+        isOpen={showQuantityModal}
+        onClose={() => setShowQuantityModal(false)}
+        dish={dish}
+        onConfirm={handleQuantityConfirm}
+        isLoading={addMealLog.isPending}
+      />
+      
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
       <div className="bg-secondary border-b border-border/20 p-8 shadow-soft">
@@ -152,5 +169,6 @@ export default function DishDetails() {
         </Button>
       </div>
     </div>
+    </>
   );
 }

@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Zap } from "lucide-react";
+import { QuantitySelectionModal } from "@/components/QuantitySelectionModal";
 
 interface Dish {
   dish_id: string;
@@ -15,12 +17,26 @@ interface Dish {
 
 interface DishCardProps {
   dish: Dish;
-  onAddToLog: (dish: Dish) => void;
+  onAddToLog: (dish: Dish, quantity: number) => void;
   onViewDetails: (dish: Dish) => void;
 }
 
 export function DishCard({ dish, onAddToLog, onViewDetails }: DishCardProps) {
+  const [showQuantityModal, setShowQuantityModal] = useState(false);
+
+  const handleQuantityConfirm = (quantity: number) => {
+    onAddToLog(dish, quantity);
+  };
+
   return (
+    <>
+      <QuantitySelectionModal
+        isOpen={showQuantityModal}
+        onClose={() => setShowQuantityModal(false)}
+        dish={dish}
+        onConfirm={handleQuantityConfirm}
+      />
+      
     <Card className="transition-all duration-300 hover:shadow-card bg-white border-border/40 rounded-2xl overflow-hidden hover:border-primary/20">
       <CardContent className="p-6">
         <div className="flex justify-between items-start mb-4">
@@ -62,7 +78,7 @@ export function DishCard({ dish, onAddToLog, onViewDetails }: DishCardProps) {
             variant="primary"
             size="sm" 
             className="flex-1 rounded-xl"
-            onClick={() => onAddToLog(dish)}
+            onClick={() => setShowQuantityModal(true)}
           >
             <Plus className="w-4 h-4 mr-1" />
             Add to Log
@@ -70,5 +86,6 @@ export function DishCard({ dish, onAddToLog, onViewDetails }: DishCardProps) {
         </div>
       </CardContent>
     </Card>
+    </>
   );
 }

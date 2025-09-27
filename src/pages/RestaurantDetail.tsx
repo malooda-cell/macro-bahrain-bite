@@ -43,7 +43,7 @@ export default function RestaurantDetail() {
     );
   }
 
-  const handleAddToLog = (dish: Dish) => {
+  const handleAddToLog = (dish: Dish, quantity: number) => {
     if (!isAuthenticated) {
       toast({
         title: "Sign in required",
@@ -56,7 +56,8 @@ export default function RestaurantDetail() {
     
     addMealLog.mutate({ 
       dishId: dish.dish_id, 
-      userId: user!.id 
+      userId: user!.id,
+      quantity 
     });
   };
 
