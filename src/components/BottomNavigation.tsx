@@ -1,12 +1,30 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, BookOpen, BarChart3, LogOut } from "lucide-react";
+import { Home, BookOpen, BarChart3, LogOut, Settings, Shield } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 export function BottomNavigation() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAuthenticated, signOut } = useAuth();
+  const { isAuthenticated, signOut, user } = useAuth();
+
+  // Check if user has admin role
+  const { data: isAdmin } = useQuery({
+    queryKey: ['user-role', user?.id],
+    queryFn: async () => {
+      if (!user?.id) return false;
+      const { data } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id)
+        .eq('role', 'admin')
+        .maybeSingle();
+      return !!data;
+    },
+    enabled: !!user?.id && isAuthenticated
+  });
 
   const handleSignOut = async () => {
     await signOut();
@@ -29,7 +47,21 @@ export function BottomNavigation() {
       label: "Dashboard",
       path: "/dashboard",
     },
+    {
+      icon: Settings,
+      label: "About",
+      path: "/about",
+    },
   ];
+
+  // Add admin nav item if user is admin
+  if (isAdmin) {
+    navItems.splice(3, 0, {
+      icon: Shield,
+      label: "Admin",
+      path: "/admin",
+    });
+  }
 
   // Hide navigation on auth page
   if (location.pathname === '/auth') {
@@ -38,7 +70,7 @@ export function BottomNavigation() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-float">
-      <div className="flex">
+      <div className="flex overflow-x-auto">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = location.pathname === item.path;
@@ -47,7 +79,7 @@ export function BottomNavigation() {
             <Button
               key={item.path}
               variant="ghost"
-              className={`flex-1 h-16 flex-col gap-1 rounded-none ${
+              className={`flex-shrink-0 h-16 flex-col gap-1 rounded-none px-3 ${
                 isActive 
                   ? "text-primary bg-primary/10" 
                   : "text-muted-foreground hover:text-foreground"
@@ -63,7 +95,7 @@ export function BottomNavigation() {
         {isAuthenticated && (
           <Button
             variant="ghost"
-            className="flex-1 h-16 flex-col gap-1 rounded-none text-destructive hover:text-destructive hover:bg-destructive/10"
+            className="flex-shrink-0 h-16 flex-col gap-1 rounded-none px-3 text-destructive hover:text-destructive hover:bg-destructive/10"
             onClick={handleSignOut}
           >
             <LogOut className="w-5 h-5" />
