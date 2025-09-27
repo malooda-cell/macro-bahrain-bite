@@ -9,7 +9,7 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Modern Green Design System */
-    --background: 113 75% 96%;
+    --background: 0 0% 98%;
     --foreground: 142 50% 15%;
 
     --card: 0 0% 100%;
