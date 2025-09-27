@@ -67,12 +67,12 @@ export default function RestaurantDetail() {
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
-      <div className="bg-gradient-primary text-primary-foreground p-4 shadow-float">
+      <div className="bg-gradient-primary text-primary-foreground p-8 shadow-float rounded-b-3xl">
         <Button
           variant="ghost"
           size="sm"
           onClick={() => navigate("/")}
-          className="mb-3 text-primary-foreground hover:bg-primary-foreground/20"
+          className="mb-4 text-white hover:bg-white/20 rounded-xl"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Restaurants
@@ -80,36 +80,36 @@ export default function RestaurantDetail() {
         
         <div className="flex justify-between items-start">
           <div>
-            <h1 className="text-2xl font-bold text-primary-foreground mb-2">
+            <h1 className="text-3xl font-bold text-white mb-3">
               {restaurant.restaurant_name}
             </h1>
-            <div className="flex items-center text-primary-foreground/80 mb-2">
-              <MapPin className="w-4 h-4 mr-1" />
-              <span>{restaurant.neighborhood}</span>
+            <div className="flex items-center text-white/90 mb-3">
+              <MapPin className="w-5 h-5 mr-2" />
+              <span className="text-lg">{restaurant.neighborhood}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Badge variant="outline" className="border-primary-foreground/30 text-primary-foreground">
+            <div className="flex items-center gap-3">
+              <Badge variant="outline" className="border-white/30 text-white rounded-full px-4 py-2">
                 {restaurant.cuisine}
               </Badge>
-              <Badge variant="secondary" className="bg-primary-foreground/20 text-primary-foreground">
+              <Badge variant="secondary" className="bg-white/20 text-white rounded-full px-4 py-2">
                 {restaurant.price_band}
               </Badge>
             </div>
           </div>
-          <div className="flex items-center text-accent">
-            <Star className="w-5 h-5 fill-current text-primary-foreground" />
-            <span className="ml-1 font-medium text-primary-foreground">4.2</span>
+          <div className="flex items-center text-white">
+            <Star className="w-6 h-6 fill-current" />
+            <span className="ml-2 font-medium text-lg">4.2</span>
           </div>
         </div>
       </div>
 
       {/* Dishes */}
-      <div className="p-4">
-        <h2 className="text-lg font-semibold text-foreground mb-4">
+      <div className="p-6">
+        <h2 className="text-xl font-bold text-foreground mb-6">
           Dishes at this cafeteria ({dishes.length} items)
         </h2>
         
-        <div className="grid gap-4">
+        <div className="grid gap-6">
           {dishes.map(dish => (
             <DishCard
               key={dish.dish_id}
@@ -121,12 +121,12 @@ export default function RestaurantDetail() {
         </div>
 
         {dishes.length === 0 && (
-          <div className="text-center py-16">
-            <div className="w-16 h-16 mx-auto mb-4 bg-muted rounded-full flex items-center justify-center">
-              <Plus className="w-8 h-8 text-muted-foreground" />
+          <div className="text-center py-20">
+            <div className="w-20 h-20 mx-auto mb-6 bg-muted rounded-full flex items-center justify-center">
+              <Plus className="w-10 h-10 text-muted-foreground" />
             </div>
-            <h3 className="text-lg font-semibold mb-2">No dishes found for this cafeteria</h3>
-            <p className="text-muted-foreground">The menu will be updated soon!</p>
+            <h3 className="text-xl font-bold mb-3">No dishes found for this cafeteria</h3>
+            <p className="text-muted-foreground text-lg">The menu will be updated soon!</p>
           </div>
         )}
       </div>

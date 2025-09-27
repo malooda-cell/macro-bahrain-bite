@@ -27,10 +27,10 @@ export function RestaurantCard({ restaurant, onClick }: RestaurantCardProps) {
 
   return (
     <Card 
-      className="cursor-pointer transition-all duration-200 hover:shadow-card hover:-translate-y-1 bg-gradient-card border-border/50"
+      className="cursor-pointer transition-all duration-300 hover:shadow-card hover:-translate-y-2 bg-white border-border/40 rounded-2xl overflow-hidden hover:border-primary/20"
       onClick={onClick}
     >
-      <CardContent className="p-4">
+      <CardContent className="p-6">
         <div className="flex justify-between items-start mb-2">
           <h3 className="font-semibold text-lg text-card-foreground truncate">
             {restaurant.restaurant_name}

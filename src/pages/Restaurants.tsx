@@ -46,42 +46,42 @@ export default function Restaurants() {
   });
 
   return (
-    <div className="min-h-screen bg-background pb-20">{/* Added pb-20 for bottom navigation */}
+    <div className="min-h-screen bg-background pb-20">
       {/* Header */}
-      <div className="bg-gradient-primary text-primary-foreground p-6 shadow-float">
-        <h1 className="text-2xl font-bold mb-2">Macro Fireej</h1>
-        <p className="text-primary-foreground/80">Discover healthy cafeterias in Bahrain</p>
+      <div className="bg-gradient-primary text-primary-foreground p-8 shadow-float rounded-b-3xl">
+        <h1 className="text-3xl font-bold mb-3 text-white">Macro Fireej</h1>
+        <p className="text-white/90 text-lg">Discover healthy cafeterias in Bahrain</p>
       </div>
 
       {/* Search and Filters */}
-      <div className="p-4 space-y-4">
+      <div className="p-6 space-y-6">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
           <Input
             placeholder="Search restaurants or cuisine..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
+            className="pl-12 h-12 rounded-xl border-border/40 focus:border-primary/40"
           />
         </div>
 
-        <div className="flex items-center gap-2 overflow-x-auto pb-2">
-          <Filter className="w-4 h-4 text-muted-foreground shrink-0" />
+        <div className="flex items-center gap-3 overflow-x-auto pb-2">
+          <Filter className="w-5 h-5 text-muted-foreground shrink-0" />
           <Button
-            variant={selectedNeighborhood === null ? "default" : "outline"}
+            variant={selectedNeighborhood === null ? "primary" : "outline"}
             size="sm"
             onClick={() => setSelectedNeighborhood(null)}
-            className="shrink-0"
+            className="shrink-0 rounded-xl"
           >
             All Areas
           </Button>
           {neighborhoods.map(neighborhood => (
             <Button
               key={neighborhood}
-              variant={selectedNeighborhood === neighborhood ? "default" : "outline"}
+              variant={selectedNeighborhood === neighborhood ? "primary" : "outline"}
               size="sm"
               onClick={() => setSelectedNeighborhood(neighborhood)}
-              className="shrink-0"
+              className="shrink-0 rounded-xl"
             >
               {neighborhood}
             </Button>
@@ -90,17 +90,17 @@ export default function Restaurants() {
       </div>
 
       {/* Results */}
-      <div className="p-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-foreground">
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold text-foreground">
             {filteredRestaurants.length} Restaurants Found
           </h2>
-          <Badge variant="secondary">
+          <Badge variant="secondary" className="rounded-full px-4 py-2">
             {selectedNeighborhood || 'All Areas'}
           </Badge>
         </div>
 
-        <div className="grid gap-4">
+        <div className="grid gap-6">
           {filteredRestaurants.map(restaurant => (
             <RestaurantCard
               key={restaurant.restaurant_id}
@@ -111,14 +111,15 @@ export default function Restaurants() {
         </div>
 
         {filteredRestaurants.length === 0 && restaurants.length > 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground mb-4">No restaurants found matching your criteria</p>
+          <div className="text-center py-16">
+            <p className="text-muted-foreground mb-6 text-lg">No restaurants found matching your criteria</p>
             <Button
               variant="outline"
               onClick={() => {
                 setSearchTerm("");
                 setSelectedNeighborhood(null);
               }}
+              className="rounded-xl"
             >
               Clear Filters
             </Button>
@@ -126,12 +127,12 @@ export default function Restaurants() {
         )}
 
         {restaurants.length === 0 && (
-          <div className="text-center py-16">
-            <div className="w-16 h-16 mx-auto mb-4 bg-muted rounded-full flex items-center justify-center">
-              <Search className="w-8 h-8 text-muted-foreground" />
+          <div className="text-center py-20">
+            <div className="w-20 h-20 mx-auto mb-6 bg-muted rounded-full flex items-center justify-center">
+              <Search className="w-10 h-10 text-muted-foreground" />
             </div>
-            <h3 className="text-lg font-semibold mb-2">No cafeterias yet</h3>
-            <p className="text-muted-foreground">Check back soon for new locations!</p>
+            <h3 className="text-xl font-bold mb-3">No cafeterias yet</h3>
+            <p className="text-muted-foreground text-lg">Check back soon for new locations!</p>
           </div>
         )}
       </div>
