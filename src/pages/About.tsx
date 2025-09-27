@@ -53,11 +53,11 @@ export default function About() {
           <CardContent>
             <div className="space-y-3">
               <p className="text-foreground leading-relaxed">
-                All restaurant and dish data has been carefully curated and seeded from comprehensive 
-                spreadsheet research of Bahrain's cafeteria landscape.
+                All restaurant and dish data was carefully weighed with a food scale and macros mapped 
+                to popular nutritional information databases to ensure accuracy and reliability.
               </p>
               <Badge variant="secondary" className="rounded-full">
-                Data Source: Curated Spreadsheet Research
+                Data Source: Food Scale Measurements & Nutritional Databases
               </Badge>
             </div>
           </CardContent>
