@@ -68,15 +68,25 @@ export default function RestaurantDetail() {
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
       <div className="bg-secondary border-b border-border/20 p-8 shadow-soft">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => navigate("/")}
-          className="mb-4 text-muted-foreground hover:bg-muted rounded-xl"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Restaurants
-        </Button>
+        <div className="flex items-center justify-between mb-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate("/")}
+            className="text-muted-foreground hover:bg-muted rounded-xl"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Restaurants
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="sm"
+            onClick={() => navigate('/about')}
+            className="rounded-xl text-muted-foreground hover:text-foreground"
+          >
+            About
+          </Button>
+        </div>
         
         <div className="flex justify-between items-start">
           <div>

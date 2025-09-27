@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, BookOpen, BarChart3, LogOut, Settings, Shield } from "lucide-react";
+import { Home, BookOpen, BarChart3, LogOut, Shield } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -47,11 +47,6 @@ export function BottomNavigation() {
       label: "Dashboard",
       path: "/dashboard",
     },
-    {
-      icon: Settings,
-      label: "About",
-      path: "/about",
-    },
   ];
 
   // Add admin nav item if user is admin
@@ -70,7 +65,7 @@ export function BottomNavigation() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-float">
-      <div className="flex overflow-x-auto">
+      <div className="flex justify-center max-w-md mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = location.pathname === item.path;
@@ -79,7 +74,7 @@ export function BottomNavigation() {
             <Button
               key={item.path}
               variant="ghost"
-              className={`flex-shrink-0 h-16 flex-col gap-1 rounded-none px-3 ${
+              className={`flex-1 h-16 flex-col gap-1 rounded-none px-4 ${
                 isActive 
                   ? "text-primary bg-primary/10" 
                   : "text-muted-foreground hover:text-foreground"
@@ -95,7 +90,7 @@ export function BottomNavigation() {
         {isAuthenticated && (
           <Button
             variant="ghost"
-            className="flex-shrink-0 h-16 flex-col gap-1 rounded-none px-3 text-destructive hover:text-destructive hover:bg-destructive/10"
+            className="flex-1 h-16 flex-col gap-1 rounded-none px-4 text-destructive hover:text-destructive hover:bg-destructive/10"
             onClick={handleSignOut}
           >
             <LogOut className="w-5 h-5" />

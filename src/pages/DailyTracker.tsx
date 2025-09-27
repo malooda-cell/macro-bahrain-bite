@@ -98,6 +98,16 @@ export default function DailyTracker() {
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
       <div className="bg-secondary border-b border-border/20 p-8 shadow-soft">
+        <div className="flex items-center justify-end mb-4">
+          <Button 
+            variant="ghost" 
+            size="sm"
+            onClick={() => navigate('/about')}
+            className="rounded-xl text-muted-foreground hover:text-foreground"
+          >
+            About
+          </Button>
+        </div>
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-3 text-foreground">My Log</h1>

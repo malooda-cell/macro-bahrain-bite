@@ -59,23 +59,33 @@ export default function DishDetails() {
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
-      <div className="bg-gradient-primary text-primary-foreground p-4 shadow-float">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => navigate(`/restaurant/${restaurantId}`)}
-          className="mb-3 text-primary-foreground hover:bg-primary-foreground/20"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Restaurant
-        </Button>
+      <div className="bg-secondary border-b border-border/20 p-8 shadow-soft">
+        <div className="flex items-center justify-between mb-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate(`/restaurant/${restaurantId}`)}
+            className="text-muted-foreground hover:bg-muted rounded-xl"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Restaurant
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="sm"
+            onClick={() => navigate('/about')}
+            className="rounded-xl text-muted-foreground hover:text-foreground"
+          >
+            About
+          </Button>
+        </div>
         
         <div className="flex justify-between items-start">
-          <h1 className="text-2xl font-bold pr-4">
+          <h1 className="text-3xl font-bold text-foreground pr-4">
             {dish.dish_name}
           </h1>
-          <Badge variant="secondary" className="bg-primary-foreground/20 text-primary-foreground shrink-0">
-            <Zap className="w-3 h-3 mr-1" />
+          <Badge variant="secondary" className="rounded-full px-4 py-2 shrink-0 flex items-center gap-1">
+            <Zap className="w-3 h-3" />
             {dish.calories} cal
           </Badge>
         </div>
@@ -84,7 +94,7 @@ export default function DishDetails() {
       {/* Content */}
       <div className="p-4 space-y-6">
         {/* Macro Overview */}
-        <Card className="bg-gradient-card shadow-card">
+        <Card className="bg-white border-border/40 rounded-2xl shadow-card">
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold mb-4 text-center">Nutritional Information</h3>
             
@@ -121,7 +131,7 @@ export default function DishDetails() {
         </Card>
 
         {/* Ingredients */}
-        <Card className="bg-gradient-card shadow-card">
+        <Card className="bg-white border-border/40 rounded-2xl shadow-card">
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold mb-3">Ingredients</h3>
             <p className="text-muted-foreground leading-relaxed">
@@ -132,7 +142,8 @@ export default function DishDetails() {
 
         {/* Add to Log Button */}
         <Button
-          className="w-full h-14 text-lg bg-gradient-primary hover:opacity-90 shadow-card"
+          variant="primary"
+          className="w-full h-14 text-lg shadow-card"
           onClick={handleAddToLog}
           disabled={addMealLog.isPending}
         >

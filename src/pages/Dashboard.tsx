@@ -30,7 +30,7 @@ export default function Dashboard() {
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center p-6">
           <h2 className="text-xl font-semibold mb-4">Sign in to view your dashboard</h2>
-          <Button onClick={() => navigate('/auth')} className="bg-gradient-primary">
+          <Button onClick={() => navigate('/auth')} variant="primary">
             Sign In
           </Button>
         </div>
@@ -116,13 +116,23 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
-      <div className="bg-gradient-primary text-primary-foreground p-6 shadow-float">
+      <div className="bg-secondary border-b border-border/20 p-8 shadow-soft">
+        <div className="flex items-center justify-end mb-4">
+          <Button 
+            variant="ghost" 
+            size="sm"
+            onClick={() => navigate('/about')}
+            className="rounded-xl text-muted-foreground hover:text-foreground"
+          >
+            About
+          </Button>
+        </div>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold mb-1">Dashboard</h1>
-            <div className="flex items-center text-primary-foreground/80">
-              <Calendar className="w-4 h-4 mr-2" />
-              <span>{new Date().toLocaleDateString('en-GB', { 
+            <h1 className="text-3xl font-bold mb-3 text-foreground">Dashboard</h1>
+            <div className="flex items-center text-muted-foreground">
+              <Calendar className="w-5 h-5 mr-2" />
+              <span className="text-lg">{new Date().toLocaleDateString('en-GB', { 
                 weekday: 'long', 
                 year: 'numeric', 
                 month: 'long', 
@@ -130,7 +140,7 @@ export default function Dashboard() {
               })}</span>
             </div>
           </div>
-          <Badge variant="secondary" className="bg-primary-foreground/20 text-primary-foreground">
+          <Badge variant="secondary" className="rounded-full px-4 py-2">
             {mealLogs.length} meals
           </Badge>
         </div>
@@ -139,7 +149,7 @@ export default function Dashboard() {
       <div className="p-4 space-y-6">
         {/* Big Number Tiles */}
         <div className="grid grid-cols-2 gap-4">
-          <Card className="bg-gradient-card shadow-card">
+          <Card className="bg-white border-border/40 rounded-2xl shadow-card">
             <CardContent className="p-4 text-center">
               <div className="text-3xl font-bold text-primary mb-1">
                 {Math.round(dailyTotals.calories)}
@@ -151,7 +161,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-card shadow-card">
+          <Card className="bg-white border-border/40 rounded-2xl shadow-card">
             <CardContent className="p-4 text-center">
               <div className="text-3xl font-bold text-success mb-1">
                 {Math.round(dailyTotals.protein)}g
@@ -163,7 +173,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-card shadow-card">
+          <Card className="bg-white border-border/40 rounded-2xl shadow-card">
             <CardContent className="p-4 text-center">
               <div className="text-3xl font-bold text-accent mb-1">
                 {Math.round(dailyTotals.carbs)}g
@@ -175,7 +185,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-card shadow-card">
+          <Card className="bg-white border-border/40 rounded-2xl shadow-card">
             <CardContent className="p-4 text-center">
               <div className="text-3xl font-bold text-destructive mb-1">
                 {Math.round(dailyTotals.fat)}g
@@ -189,7 +199,7 @@ export default function Dashboard() {
         </div>
 
         {/* Macro Breakdown Pie Chart */}
-        <Card className="bg-gradient-card shadow-card">
+        <Card className="bg-white border-border/40 rounded-2xl shadow-card">
           <CardHeader>
             <CardTitle className="flex items-center">
               <TrendingUp className="w-5 h-5 mr-2 text-primary" />
@@ -220,7 +230,7 @@ export default function Dashboard() {
         </Card>
 
         {/* Progress Chart */}
-        <Card className="bg-gradient-card shadow-card">
+        <Card className="bg-white border-border/40 rounded-2xl shadow-card">
           <CardHeader>
             <CardTitle className="flex items-center">
               <Target className="w-5 h-5 mr-2 text-primary" />
@@ -249,11 +259,11 @@ export default function Dashboard() {
 
         {/* Quick Actions */}
         {mealLogs.length === 0 && (
-          <Card className="bg-gradient-card shadow-card">
+          <Card className="bg-white border-border/40 rounded-2xl shadow-card">
             <CardContent className="p-6 text-center">
               <h3 className="text-lg font-semibold mb-2">No meals logged today</h3>
               <p className="text-muted-foreground mb-4">Start tracking your nutrition by browsing restaurants</p>
-              <Button onClick={() => window.location.href = '/'} className="bg-gradient-primary">
+              <Button onClick={() => window.location.href = '/'} variant="primary">
                 Browse Restaurants
               </Button>
             </CardContent>
