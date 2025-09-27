@@ -61,10 +61,6 @@ export default function RestaurantDetail() {
     });
   };
 
-  const handleViewDetails = (dish: Dish) => {
-    navigate(`/restaurant/${restaurantId}/dish/${dish.dish_id}`);
-  };
-
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
@@ -127,7 +123,6 @@ export default function RestaurantDetail() {
               key={dish.dish_id}
               dish={dish}
               onAddToLog={handleAddToLog}
-              onViewDetails={handleViewDetails}
             />
           ))}
         </div>

@@ -18,10 +18,9 @@ interface Dish {
 interface DishCardProps {
   dish: Dish;
   onAddToLog: (dish: Dish, quantity: number) => void;
-  onViewDetails: (dish: Dish) => void;
 }
 
-export function DishCard({ dish, onAddToLog, onViewDetails }: DishCardProps) {
+export function DishCard({ dish, onAddToLog }: DishCardProps) {
   const [showQuantityModal, setShowQuantityModal] = useState(false);
 
   const handleQuantityConfirm = (quantity: number) => {
@@ -61,23 +60,15 @@ export function DishCard({ dish, onAddToLog, onViewDetails }: DishCardProps) {
           </Badge>
         </div>
         
-        <p className="text-sm text-muted-foreground mb-4 line-clamp-2 leading-relaxed">
+        <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
           {dish.ingredients}
         </p>
         
-        <div className="flex gap-3">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="flex-1 rounded-xl"
-            onClick={() => onViewDetails(dish)}
-          >
-            View Details
-          </Button>
+        <div className="flex">
           <Button 
             variant="primary"
             size="sm" 
-            className="flex-1 rounded-xl"
+            className="w-full rounded-xl"
             onClick={() => setShowQuantityModal(true)}
           >
             <Plus className="w-4 h-4 mr-1" />
