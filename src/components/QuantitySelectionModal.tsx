@@ -61,7 +61,7 @@ export function QuantitySelectionModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md bg-white border-border/40 rounded-2xl">
+      <DialogContent className="sm:max-w-md bg-white border-gray-700 rounded-2xl">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold text-center">
             Add to Log

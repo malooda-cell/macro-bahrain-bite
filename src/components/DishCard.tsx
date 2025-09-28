@@ -36,7 +36,7 @@ export function DishCard({ dish, onAddToLog }: DishCardProps) {
         onConfirm={handleQuantityConfirm}
       />
       
-    <Card className="transition-all duration-300 hover:shadow-card bg-white border-border/40 rounded-2xl overflow-hidden hover:border-primary/20">
+    <Card className="transition-all duration-300 hover:shadow-card bg-white border-gray-700 rounded-2xl overflow-hidden hover:border-gray-700">
       <CardContent className="p-6">
         <div className="flex justify-between items-start mb-4">
           <h4 className="font-semibold text-lg text-card-foreground leading-tight">
