@@ -73,7 +73,7 @@ export default function Restaurants() {
             placeholder="Search restaurants or cuisine..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-12 h-12 rounded-xl border-border/40 focus:border-primary/40"
+            className="pl-12 h-12 rounded-xl border-gray-700 focus:border-primary/40"
           />
         </div>
 

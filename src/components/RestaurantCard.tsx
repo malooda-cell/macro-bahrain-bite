@@ -27,7 +27,7 @@ export function RestaurantCard({ restaurant, onClick }: RestaurantCardProps) {
 
   return (
     <Card 
-      className="cursor-pointer transition-all duration-300 hover:shadow-card hover:-translate-y-2 bg-white border-foreground rounded-2xl overflow-hidden hover:border-foreground"
+      className="cursor-pointer transition-all duration-300 hover:shadow-card hover:-translate-y-2 bg-white border-gray-700 rounded-2xl overflow-hidden hover:border-gray-700"
       onClick={onClick}
     >
       <CardContent className="p-6">
